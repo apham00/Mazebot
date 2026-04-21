@@ -1,0 +1,243 @@
+
+body {
+	margin: 0px;
+	padding: 110px;
+/*	background-color:Gray;*/
+/*	background: #242323 url(images/bg1.jpg) repeat-x left top;*/
+    background-image:url(images/bg_collage.jpg);
+	text-align: justify;
+	font: 13px Arial, Helvetica, sans-serif;
+	color: #444444;
+}
+
+h1, h2, h3 {
+	margin-top: 0px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+h1 {
+	font-size: 2.4em;
+}
+
+h2 {
+	font-size: 1.8em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+p, ol, ul {
+	margin-bottom: 1.8em;
+	line-height: 160%;
+}
+
+a {
+	color: #000000;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #FF0000;
+}
+
+a img {
+	border: none;
+}
+
+#wrapper {
+	width: 900px; 
+	margin: 0 auto;
+	border: 10px solid #FFFFFF;
+}
+
+/* Header */
+
+#header {
+	width: 900px;
+	height: 100px;
+	margin: 0px auto;
+	background-image: url(images/LamarHeader.jpg) ;
+	background-repeat: no-repeat; 
+	/*background: #66605B repeat-x left top;*/
+	
+}
+
+#header a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+/* Logo */
+
+#logo {
+	float: left;
+	padding-left: 35px;
+}
+
+#logo h1, #logo p {
+	margin: 0px;
+	line-height: normal;
+	font-weight: normal;
+	color: #000000;
+}
+
+#logo h1 {
+	padding:0px 0px 8px 0px;
+}
+
+#logo p {
+	text-indent: -99999px;
+}
+
+/* Menu */
+#topPan{width:600px; float: right; margin:20 auto;}
+#topPan ul {width:600px; padding: 30px 0px 0px 0px;}
+#topPan ul li{float:left; font:12px/30px "Trebuchet MS", Arial, Helvetica, sans-serif; font-weight:bold; text-transform:uppercase;}
+#topPan ul li a{width:92px; height:30px; display:block; background:url(images/menubg-normal.gif) 0 0 no-repeat #66605B; color:#FDFDFD;  text-decoration:none; text-align:center;}
+#topPan ul li a:hover{background:url(images/menubg-hover.gif) 0 0 no-repeat #66605B; color:#1A1917;}
+#topPan ul li.menupadding{width:92px; height:30px; display:block; background:url(images/menubg-hover.gif) 0 0 no-repeat #FDFDFD; color:#1A1917; text-align:center; margin:0 0 0 1px;}
+
+
+
+
+
+
+
+/* Page */
+
+#page {
+	width: 900px;
+	margin: 0px auto;
+	padding: 10px 0px 0px 0px;
+	background: #FFFFFF;
+}
+
+#header-pic {
+	/*background: url(images/img05.jpg) no-repeat left top;*/
+	width: 900px;
+	height: 210px;
+}
+
+/* Content */
+
+#content {
+	float: right;
+	width: 570px;
+}
+
+.post {
+	background: #FFFFFF;
+	margin: 0px 0px 30px 0px;
+}
+
+.post .title {
+	margin: 0px;
+	background: #444444 url(images/formtop1.gif) no-repeat right top;
+	padding: 7px 25px;
+	font-size: 1.4em;
+}
+
+.post .title h1 {
+}
+
+.post .entry {
+	padding: 0 20px;
+}
+
+.post .meta {
+	font-weight: bold;
+	padding-left: 20px;
+}
+
+.post .byline {
+	margin: 0px;
+	padding-left: 20px;
+}
+
+/* Sidebar */
+
+#sidebar {
+	float: left;
+	width: 300px;
+	
+}
+
+#sidebar-bgtop {
+}
+
+#sidebar-bgbtm {
+}
+
+#sidebar-content {
+}
+
+#sidebar ul {
+	padding: 0px 0 5px 0;
+	margin: 0px;
+	list-style: none;
+}
+
+#sidebar li li {
+	margin-right: 10px;
+	line-height: 30px;
+	padding-left: 15px;
+	border-bottom: 1px dashed #BDBDBD;
+}
+
+#sidebar li ul {
+	margin-bottom: 1.8em;
+	list-style: none;
+}
+
+#sidebar h2 {
+	background: url(images/img09.jpg) no-repeat left top;
+	padding: 7px 25px;
+	font-size: 1.4em;
+}
+
+#sidebar a {
+	text-decoration: none;
+}
+
+#sidebar a:hover {
+	text-decoration: underline;
+	}
+
+
+
+/* Footer */
+
+#footer {
+	clear: both;
+	width: 920px;
+	height: 230px;
+	margin: 0px auto 30px auto;
+/*	opacity: 0.70; 
+background: url(images/formtop.gif) no-repeat left top;  #242424;*/
+	color: #444444;
+	background-color: White;
+	
+}
+
+#footer p {
+	margin: 0px;
+	padding: 13px 0px 0px 0px;
+	text-align: center;
+	line-height: normal;
+	font-size: medium;
+}
+
+#footer a {
+	color: #FFFFFF;
+}
+
+#blacktab 
+{   padding-bottom: 10px; 
+	width: 900px;
+	margin: 0 auto;
+	/*background-color:#fff;*/
+	height: 100px;
+	border-bottom: 0px solid #555;
+}
