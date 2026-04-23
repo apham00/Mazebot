@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moorebot Scout – People</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo-area">
+      <svg class="logo-icon" viewBox="0 0 42 42" fill="none">
+        <rect width="42" height="42" rx="8" fill="rgba(0,212,255,0.1)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+        <circle cx="21" cy="16" r="7" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+        <circle cx="21" cy="16" r="3" fill="#00d4ff" opacity="0.7"/>
+        <rect x="14" y="26" width="14" height="9" rx="2" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+        <line x1="11" y1="29" x2="14" y2="29" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="28" y1="29" x2="31" y2="29" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="11" y1="32" x2="14" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="28" y1="32" x2="31" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="18" y1="35" x2="18" y2="38" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="35" x2="24" y2="38" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text">
+        <div class="brand">Moorebot Scout</div>
+        <div class="sub">Autonomous Navigation Project</div>
+      </div>
+    </div>
+    <div class="header-badge">Lamar University · CS Dept</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="pictures.html">Pictures</a>
+    <a href="project.html">Project</a>
+    <a href="people.html" class="active">People</a>
+    <a href="code.html">Code</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+</header>
+
+<div class="page-wrapper">
+  <main class="content-area">
+    <h1 class="page-title">Our <span>Team</span></h1>
+    <div class="title-line"></div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h2>Team Members</h2>
+      <p>Update the names, roles, and initials below to match your actual team.</p>
+    </div>
+
+    <div class="people-grid">
+      <!-- Team Member 1 -->
+      <div class="person-card">
+        <div class="avatar">AA</div>
+        <h3>Team Member 1</h3>
+        <p>Project Lead</p>
+      </div>
+      <!-- Team Member 2 -->
+      <div class="person-card">
+        <div class="avatar" style="background: linear-gradient(135deg, #7b2fff, #00d4ff);">BB</div>
+        <h3>Team Member 2</h3>
+        <p>Software Dev</p>
+      </div>
+      <!-- Team Member 3 -->
+      <div class="person-card">
+        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">CC</div>
+        <h3>Team Member 3</h3>
+        <p>Hardware Lead</p>
+      </div>
+      <!--
+        To add more members, copy one of the person-card blocks above.
+        Change the initials in the <div class="avatar"> and update the name/role.
+      -->
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h2>Faculty Advisor</h2>
+      <ul class="link-list">
+        <li>
+          <div style="padding:0.85rem 0; display:flex; align-items:center; gap:10px;">
+            <div class="icon">🎓</div>
+            <div>
+              <div style="font-size:0.92rem; color:var(--text);">Prof. [Advisor Name]</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">Department of Computer Science · Lamar University</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="val">3</span>
+          <span class="lbl">Members</span>
+        </div>
+        <div class="stat">
+          <span class="val">1</span>
+          <span class="lbl">Advisor</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-card-body">
+        <h3>Roles on the Team</h3>
+        <p style="margin-top:0.5rem; font-size:0.8rem; line-height:1.9; color:var(--text-muted);">
+          <span style="color:var(--accent);">Project Lead</span> — coordinates milestones<br>
+          <span style="color:var(--accent);">Software Dev</span> — navigation &amp; control<br>
+          <span style="color:var(--accent);">Hardware Lead</span> — assembly &amp; sensors
+        </p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <p>© 2025 Moorebot Scout Project Team · Lamar University</p>
+  <p>Department of Computer Science · <a href="https://www.lamar.edu">lamar.edu</a></p>
+</footer>
+
+</body>
+</html>
