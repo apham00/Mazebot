@@ -34,8 +34,8 @@
     <a href="index.html">Home</a>
     <a href="pictures.html">Pictures</a>
     <a href="project.html">Project</a>
-    <a href="people.html" >People</a>
-    <a href="code.html" class="active">Code</a>
+    <a href="people.html">People</a>
+     <a href="code.html" class="active">Code</a>
   </nav>
 </header>
 
@@ -44,73 +44,143 @@
     <h1 class="page-title">Our <span>Code</span></h1>
     <div class="title-line"></div>
 
-    <div class="card" style="margin-bottom:1.5rem;">
-      <h2>Team Members</h2>
+    <div class="hero">
+      <h2>Source Code &amp; <span>Repositories</span></h2>
+      <p>
+        All of the software powering the Moorebot Scout's autonomous navigation
+        lives in our team repository. Below you'll find the tech stack, key
+        modules, and example snippets from the codebase.
+      </p>
     </div>
 
-    <div class="people-grid">
-      <!-- Team Member 1 -->
-      <div class="person-card">
-        <div class="avatar">AP</div>
-        <h3>Andrew Pham</h3>
+    <div class="card">
+      <h2>Tech Stack</h2>
+      <p>The project is built on a Python-first stack running on the Scout's onboard compute, with a ROS-style messaging layer for sensors and control.</p>
+      <div style="margin-top:1rem;">
+        <span class="tag">Python 3.11</span>
+        <span class="tag">ROS 2</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">C++</span>
+        <span class="tag">Git</span>
       </div>
-      <!-- Team Member 2 -->
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #7b2fff, #00d4ff);">DW</div>
-        <h3>Deamon Williams</h3>
-      </div>
-      <!-- Team Member 3 -->
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">AP</div>
-        <h3>Athira Pambooru</h3>
-      </div>
-      
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">MG</div>
-        <h3>Miguel Gallego</h3>
-      </div>
-
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">FA</div>
-        <h3>Farah AlabdulRazzak</h3>
-      </div>
-
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">RM</div>
-        <h3>Robel Mezgebe</h3>
-      </div>
-
-       <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">EH</div>
-        <h3>Ethan Honis</h3>
-      </div>
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">TB</div>
-        <h3>Taral Bhasadia</h3>
-      </div>
-
-      <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">TK</div>
-        <h3>Trevor Knierim</h3>
-      </div>
-
-       <div class="person-card">
-        <div class="avatar" style="background: linear-gradient(135deg, #00d4ff, #0a6e8f);">SB</div>
-        <h3>Sri Prakash Bokka</h3>
-      </div>
-      
-      
     </div>
 
-    <div class="card" style="margin-top:1.5rem;">
-      <h2>Dpartment  Chair</h2>
+    <div class="card">
+      <h2>Repository</h2>
+      <ul class="link-list">
+        <li>
+          <a href="https://github.com/" target="_blank">
+            <div class="icon">💾</div>
+            GitHub · moorebot-scout (main repo)
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/" target="_blank">
+            <div class="icon">📘</div>
+            Documentation &amp; Setup Guide
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/" target="_blank">
+            <div class="icon">🐛</div>
+            Issue Tracker
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Getting Started</h2>
+      <p>Clone the repository and install dependencies:</p>
+      <div class="code-block">
+<code>$ git clone https://github.com/your-org/moorebot-scout.git
+$ cd moorebot-scout
+$ python -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+$ python -m scout.run</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Example: Obstacle Avoidance</h2>
+      <p>A simplified loop that reads LiDAR distances and steers the robot away from nearby obstacles.</p>
+      <div class="code-block">
+<code>from scout.hardware import LiDAR, Motors
+
+def avoid_obstacles(threshold=0.4):
+    lidar = LiDAR()
+    motors = Motors()
+
+    while True:
+        scan = lidar.read()
+        front = min(scan.front)
+
+        if front &lt; threshold:
+            motors.stop()
+            motors.turn(direction="left", speed=0.3)
+        else:
+            motors.forward(speed=0.5)</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Example: Camera Object Detection</h2>
+      <p>Runs a lightweight model on the onboard camera feed and publishes detected objects.</p>
+      <div class="code-block">
+<code>import cv2
+from scout.vision import Detector
+
+detector = Detector(model="yolov8n.pt")
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ok, frame = cap.read()
+    if not ok:
+        break
+    for obj in detector.detect(frame):
+        print(f"{obj.label} @ {obj.confidence:.2f}")</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Modules</h2>
       <ul class="link-list">
         <li>
           <div style="padding:0.85rem 0; display:flex; align-items:center; gap:10px;">
-            <div class="icon">🎓</div>
+            <div class="icon">🧭</div>
             <div>
-              <div style="font-size:0.92rem; color:var(--text);">Prof. Stephan Andrie</div>
-              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">Department of Computer Science · Lamar University</div>
+              <div style="font-size:0.92rem; color:var(--text);">scout.navigation</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">Path planning &amp; waypoint following</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div style="padding:0.85rem 0; display:flex; align-items:center; gap:10px;">
+            <div class="icon">📡</div>
+            <div>
+              <div style="font-size:0.92rem; color:var(--text);">scout.sensors</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">LiDAR, IMU, and camera drivers</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div style="padding:0.85rem 0; display:flex; align-items:center; gap:10px;">
+            <div class="icon">👁️</div>
+            <div>
+              <div style="font-size:0.92rem; color:var(--text);">scout.vision</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">Object detection &amp; image processing</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div style="padding:0.85rem 0; display:flex; align-items:center; gap:10px;">
+            <div class="icon">⚙️</div>
+            <div>
+              <div style="font-size:0.92rem; color:var(--text);">scout.control</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); font-family:'Share Tech Mono',monospace;">Low-level motor &amp; servo control</div>
             </div>
           </div>
         </li>
@@ -120,18 +190,45 @@
 
   <aside class="sidebar">
     <div class="sidebar-card">
-      <div class="stat-grid">
-        <div class="stat">
-          <span class="val">9</span>
-          <span class="lbl">Members</span>
-        </div>
-        <div class="stat">
-          <span class="val">1</span>
-          <span class="lbl">Instructor</span>
+      <div class="sidebar-card-body">
+        <h3>Languages</h3>
+        <p>Primary languages used across the codebase.</p>
+        <div style="margin-top:0.75rem;">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">Shell</span>
         </div>
       </div>
     </div>
-  
+
+    <div class="sidebar-card">
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="val">4</span>
+          <span class="lbl">Modules</span>
+        </div>
+        <div class="stat">
+          <span class="val">12k+</span>
+          <span class="lbl">Lines of Code</span>
+        </div>
+        <div class="stat">
+          <span class="val">MIT</span>
+          <span class="lbl">License</span>
+        </div>
+        <div class="stat">
+          <span class="val">v0.1</span>
+          <span class="lbl">Release</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-body">
+        <h3>Contribute</h3>
+        <p>Fork the repo, open an issue, or submit a pull request on GitHub.</p>
+        <a href="https://github.com/" target="_blank" class="btn" style="margin-top:0.75rem; display:inline-block;">View on GitHub</a>
+      </div>
+    </div>
   </aside>
 </div>
 
