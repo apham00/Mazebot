@@ -23,6 +23,42 @@ body {
     radial-gradient(ellipse at 80% 20%, rgba(123,47,255,0.07) 0%, transparent 50%);
 }
 
+/* add all human code below */
+.sidebar-card-body2 {
+  padding: 1rem 1.25rem;
+}
+
+.sidebar-card-body2 h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.uni-link {
+  color: var(--accent);
+  text-decoration: none;
+  display: block;
+}
+
+.uni-link:hover {
+  text-decoration: underline;
+}
+
+.normal-link {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.normal-link:visited {
+  color: blue;
+}
+
+.normal-link:hover {
+  color: darkblue;
+}
+
 /* ── HEADER ── */
 header {
   background: rgba(10,22,40,0.95);
@@ -107,11 +143,27 @@ nav a:hover, nav a.active {
 /* ── PAGE LAYOUT ── */
 .page-wrapper {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 360px;
   gap: 2rem;
   max-width: 1100px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
+}
+
+.page-wrapper .home-page {
+  grid-template-columns: 1fr 360px;
+  max-width: 1300px;
+}
+
+.code-page {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.code-page .content-area {
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -221,8 +273,8 @@ nav a:hover, nav a.active {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
-  overflow: hidden;
-}
+  overflow: visible;
+} /* modified */ 
 
 .sidebar-card img {
   width: 100%;
@@ -245,6 +297,19 @@ nav a:hover, nav a.active {
   color: var(--text-muted);
   line-height: 1.5;
 }
+
+.sidebar-card-body p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+} /* added */
+
+.sidebar-card-body a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+} /* added */
 
 .stat-grid {
   display: grid;
@@ -345,8 +410,13 @@ footer a:hover { text-decoration: underline; }
 /* ── PEOPLE GRID ── */
 .people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+  justify-content: center;
   gap: 1rem;
+}
+
+.people-grid .person-card:last-child {
+  grid-column: 2;
 }
 
 .person-card {
