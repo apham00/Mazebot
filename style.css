@@ -162,6 +162,12 @@ nav a:hover, nav a.active {
   padding: 2.5rem 2rem;
 }
 
+.code-page .sidebar-card,
+.code-page .card {
+  margin-bottom: 1rem;
+}
+
+
 .code-page .content-area {
   width: 100%;
 }
@@ -283,6 +289,14 @@ nav a:hover, nav a.active {
 
 .sidebar-card-body {
   padding: 1rem 1.25rem;
+}
+
+.sidebar-card-body-project{
+  padding: 1rem 1rem;
+}
+
+.sidebar-card-project {
+  width: 380px;
 }
 
 .sidebar-card-body h3 {
