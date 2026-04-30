@@ -225,6 +225,16 @@ nav a:hover, nav a.active {
   font-family: 'Share Tech Mono', monospace;
 }
 
+.card h3 {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+
 .card p {
   color: var(--text-muted);
   line-height: 1.7;
