@@ -88,18 +88,19 @@
     <div class="card">
       <h2>Methodology</h2>
       <p>
-        Describe the approach your team took. What algorithms did you implement?
-        What sensors does the Moorebot Scout use? How did you test and validate your
-        results? Add detail here as your project progresses.
+        This project was carried out by remotely accessing the Moorebot Scout through SSH and working inside its ROS1 environment. Python scripts were developed and executed on the robot to send movement commands and test basic navigation behaviors. During each test, the robot’s responses were observed to evaluate how software instructions translated into physical motion. The results were then used to understand the interaction between Python, ROS1, and the robot’s hardware, highlighting how software controls real‑world robotic systems.
       </p>
     </div>
 
     <div class="card">
       <h2>Results &amp; Conclusions</h2>
+       <h3>Results</h3>
       <p>
-        Share your key findings here. Did the robot successfully navigate the course?
-        What were the accuracy and reliability metrics? What would you do differently
-        with more time? This section will grow as you complete experiments.
+        After running the initial movement scripts, additional ROS1 code was implemented to enable basic obstacle‑avoidance behavior. Using sensor data published by the robot, the Python script monitored distance readings and triggered avoidance maneuvers when an obstacle was detected. The Moorebot Scout successfully stopped, turned, or adjusted its path based on these sensor inputs. Testing showed that the robot could react in real time to nearby objects, demonstrating that ROS1 topics and Python callbacks were functioning correctly. Overall, the robot consistently executed both direct movement commands and automated avoidance behaviors without communication issues.
+      </p>
+      <h3>Conclusions</h3>
+      <p>
+        By extending the Python scripts to include obstacle‑avoidance logic, the project further demonstrated how ROS1 enables software‑driven control of a mobile robot. The results showed that Python code can not only command movement but also interpret sensor data and make autonomous decisions. This work highlights the practical connection between programming, middleware, and real‑world robotics, illustrating how software can be used to build more intelligent and responsive navigation behaviors on the Moorebot Scout.
       </p>
     </div>
   </main>
