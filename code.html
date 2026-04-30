@@ -43,39 +43,302 @@
   <main class="content-area">
     <h1 class="page-title">Our <span>Code</span></h1>
     <div class="title-line"></div>
-    
-    <div class="sidebar-card">
-      <div class="sidebar-card-body">
-        <h3>Contribute</h3>
-        <p>Fork the repo, open an issue, or submit a pull request on GitHub.</p>
-        <a href="https://github.com/apham00/Mazebot" target="_blank" class="btn" style="margin-top:0.75rem; display:inline-block;">View on GitHub</a>
-      </div>
-    </div>
-
-<div class="card">
-  <h2>Python Code</h2>
-  <p>insert
-long
-code
-</p>
-</div>
 
     <div class="hero">
       <h2>Source Code &amp; <span>Repositories</span></h2>
       <p>
-        The project is built on a Python-first stack running on the Scout's onboard compute, with a ROS-style messaging layer for sensors and control.
+        All of the software powering the Mazebot Scout's autonomous navigation
+        lives in our team repository. Below you'll find the tech stack, key
+        modules, and example snippets from the codebase.
       </p>
     </div>
 
+    <div class="card">
+      <h2>Tech Stack</h2>
+      <p>The project is built on a Python-first stack running on the Scout's onboard compute, with a ROS-style messaging layer for sensors and control.</p>
+      <div style="margin-top:1rem;">
+        <span class="tag">Python 3.11</span>
+        <span class="tag">ROS 2</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">C++</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
 
+    <div class="card">
+      <h2>Repository</h2>
+      <ul class="link-list">
+        <li>
+          <a href="https://github.com/ehonis/school-moorebot-scout" target="_blank">
+            <div class="icon">💾</div>
+            GitHub · school-moorebot-scout (main repo)
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ehonis/school-moorebot-scout#readme" target="_blank">
+            <div class="icon">📘</div>
+            Documentation &amp; Setup Guide
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/ehonis/school-moorebot-scout/issues" target="_blank">
+            <div class="icon">🐛</div>
+            Issue Tracker
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Python Code</h2>
+      <textarea readonly style="width:100%; min-height:460px; padding:1rem; border-radius:10px; border:1px solid rgba(0,212,255,0.25); background:rgba(0,0,0,0.2); color:#d6e6ff; font-family:Consolas, Monaco, 'Courier New', monospace; font-size:0.86rem; line-height:1.45; resize:vertical;">
+import signal
+import select
+import sys
+import threading
+import time
+import tty
+import termios
+
+import rospy
+from sensor_msgs.msg import Range
+
+try:
+    # Nav services are available on the robot ROS image.
+    # `nav_patrol(name="")` is interpreted by NavPath as "go back home".
+    from roller_eye.srv import nav_cancel, nav_patrol
+except Exception:
+    # Keep script runnable even if service stubs are unavailable in this env.
+    nav_patrol = None
+    nav_cancel = None
+
+
+# The Scout Python API is typically installed at this path on-device.
+sys.path.append("/usr/local/lib")
+from rollereye import *  # noqa: F401,F403 - project examples use star import
+
+
+# =========================
+# Tuning parameters
+# =========================
+# Stop when something is very close in front (about 5-10 cm).
+# Set to 8 cm as the default "wall too close" trigger.
+STOP_DISTANCE_M = 0.2
+
+# Use a little hysteresis to avoid rapid stop/start jitter near the threshold.
+# Robot resumes forward when clearance grows beyond this distance.
+RESUME_DISTANCE_M = 0.12
+
+# Continuous forward speed (m/s).
+FORWARD_SPEED_MPS = 0.16
+
+# Rotation speed used for scan turns (deg/s).
+TURN_SPEED_DPS = 90
+
+# Scan resolution. Larger step = faster scan with less angular precision.
+# Must evenly divide 360. 45 gives 8 samples per sweep (was 12 at 30 deg).
+SCAN_STEP_DEG = 45
+
+# Continuous spin speed for scan-only turns (deg/s).
+# Intentionally slower than before so TOF gets a cleaner read at each heading
+# and the robot visibly completes a deliberate full sweep before deciding.
+SCAN_TURN_SPEED_DPS = 60
+
+# Do not pick headings in the rear half of the robot.
+# This keeps recovery turns from backtracking toward already-traveled space.
+# Interpretation:
+#   - 0 deg offset is straight ahead (always allowed)
+#   - +/-90 deg is still considered forward-sector
+#   - anything beyond that (rear hemisphere) is disallowed
+MAX_FORWARD_TURN_DEG = 90
+
+# If TOF data is stale, pause movement for safety.
+TOF_STALE_TIMEOUT_S = 1.0
+
+# Timeout to wait for one fresh TOF reading after each turn.
+# Shorter value = faster sweep; 0.25 s is enough for the 10 Hz TOF node.
+TOF_WAIT_TIMEOUT_S = 0.25
+
+# Tiny settle wait to let motion/reading stabilize between operations.
+SETTLE_S = 0.15
+
+# Manual override speed values (kept modest for tight spaces).
+MANUAL_FORWARD_SPEED_MPS = 0.16
+MANUAL_TURN_SPEED_DPS = 75
+
+# Service names provided by NavPath node.
+NAV_PATROL_SERVICE = "/nav_patrol"
+NAV_CANCEL_SERVICE = "/nav_cancel"
+
+
+# Shared TOF snapshot (callback thread -> control loop thread).
+_tof_lock = threading.Lock()
+_latest_tof_range_m = None
+_latest_tof_time_s = 0.0
+
+# Main loop run flag; set False by signal handler.
+_running = True
+
+
+class MovementRecorder(object):
+    """
+    Keep a time-based history of motion commands so we can backtrack.
+    """
+    def __init__(self):
+        self._history = []
+        self._active = None
+        self._is_replaying = False
+
+    def _finish_active(self):
+        if self._active is None:
+            return
+        duration = time.time() - self._active["start_s"]
+        if duration > 0.0:
+            segment = dict(self._active)
+            segment["duration_s"] = duration
+            self._history.append(segment)
+        self._active = None
+
+    def start_translate(self, degree, speed_mps):
+        rollereye.set_translationSpeed(speed_mps)
+        rollereye.set_translate(degree=degree)
+        if self._is_replaying:
+            return
+        self._finish_active()
+        self._active = {
+            "kind": "translate",
+            "degree": degree,
+            "speed_mps": speed_mps,
+            "start_s": time.time(),
+        }
+
+    def start_rotate(self, direction, speed_dps):
+        rollereye.set_rotationSpeed(speed_dps)
+        rollereye.set_rotate(direction=direction)
+        if self._is_replaying:
+            return
+        self._finish_active()
+        self._active = {
+            "kind": "rotate",
+            "direction": direction,
+            "speed_dps": speed_dps,
+            "start_s": time.time(),
+        }
+
+    def rotate_degrees(self, direction, degrees, speed_dps, record=True):
+        rollereye.set_rotationSpeed(speed_dps)
+        rollereye.set_rotate_3(direction=direction, degree=degrees)
+        time.sleep(SETTLE_S)
+        if self._is_replaying or (not record):
+            return
+        self._finish_active()
+        self._history.append(
+            {
+                "kind": "rotate_deg",
+                "direction": direction,
+                "degrees": degrees,
+                "speed_dps": speed_dps,
+            }
+        )
+
+    def stop_motion(self):
+        rollereye.stop_move()
+        if self._is_replaying:
+            return
+        self._finish_active()
+
+    def replay_reverse(self):
+        self._finish_active()
+        if not self._history:
+            print("[history] no movement recorded yet.")
+            return
+        print("[history] reversing %d recorded steps..." % len(self._history))
+        self._is_replaying = True
+        try:
+            rollereye.set_rotationSpeed(TURN_SPEED_DPS)
+            rollereye.set_rotate_3(direction=2, degree=180)
+            time.sleep(SETTLE_S)
+            for step in reversed(self._history):
+                if step["kind"] == "translate":
+                    rollereye.set_translationSpeed(step["speed_mps"])
+                    rollereye.set_translate(degree=step["degree"])
+                    time.sleep(step["duration_s"])
+                    rollereye.stop_move()
+                    time.sleep(SETTLE_S)
+                elif step["kind"] == "rotate":
+                    inverse_direction = 2 if step["direction"] == 1 else 1
+                    rollereye.set_rotationSpeed(step["speed_dps"])
+                    rollereye.set_rotate(direction=inverse_direction)
+                    time.sleep(step["duration_s"])
+                    rollereye.stop_move()
+                    time.sleep(SETTLE_S)
+                elif step["kind"] == "rotate_deg":
+                    inverse_direction = 2 if step["direction"] == 1 else 1
+                    rollereye.set_rotationSpeed(step["speed_dps"])
+                    rollereye.set_rotate_3(
+                        direction=inverse_direction, degree=step["degrees"]
+                    )
+                    time.sleep(SETTLE_S)
+        finally:
+            self._is_replaying = False
+        print("[history] reverse replay complete.")
+
+
+def stop_handler(signum, frame):
+    global _running
+    _running = False
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, stop_handler)
+    signal.signal(signal.SIGTERM, stop_handler)
+    signal.signal(signal.SIGHUP, stop_handler)
+    rollereye.start()
+    enable_print()
+      </textarea>
+    </div>
+
+    <section class="card abstract-footer">
+    <p>© 2026 Mazebot Scout Project Team · Cleveland State University</p>
+    <p>Department of Computer Science · <a class="normal-link" href="https://engineering.csuohio.edu/cs" target="_blank">https://engineering.csuohio.edu/cs</a></p>
+    </section>
   </main>
 
   <aside class="sidebar">
-  
-    <section class="card abstract-footer">
-    <p>© 2026 Mazebot Scout Project Team · Cleveland State University</p>
-    <p>Department of Computer Science · <a href="https://engineering.csuohio.edu/cs" target="_blank">https://engineering.csuohio.edu/cs</a></p>
-  </section>
+    <div class="sidebar-card">
+      <div class="sidebar-card-body">
+        <h3>Languages</h3>
+        <p>Primary languages used across the codebase.</p>
+        <div style="margin-top:0.75rem;">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">Shell</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="val">4</span>
+          <span class="lbl">Modules</span>
+        </div>
+        <div class="stat">
+          <span class="val">12k+</span>
+          <span class="lbl">Lines of Code</span>
+        </div>
+        <div class="stat">
+          <span class="val">MIT</span>
+          <span class="lbl">License</span>
+        </div>
+        <div class="stat">
+          <span class="val">v0.1</span>
+          <span class="lbl">Release</span>
+        </div>
+      </div>
+    </div>
 
   </aside>
 </div>
