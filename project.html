@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mazebot Scout – Project</title>
+  <title>Mazebot Scout - Project</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -39,73 +39,60 @@
   </nav>
 </header>
 
-<div class="page-wrapper">
+<div class="page-wrapper project-page">
   <main class="content-area">
     <h1 class="page-title">The <span>Project</span></h1>
     <div class="title-line"></div>
 
-    <div class="card">
-      <h2>Mazebot Overview</h2>
-      <ul class="link-list">
-        <li>
-          <a href="https://github.com/apham00/Mazebot" target="_blank">
-            <div class="icon">💾</div>
-            GitHub Repository
-          </a>
-        </li>
-        <!--
-        <li>
-          <a href="report.pdf">
-            <div class="icon">📄</div>
-            Code (PDF)
-          </a>
-        </li>
-        <li>
-          <a href="report.docx">
-            <div class="icon">📝</div>
-            Project Report (Word)
-          </a>
-        </li>
-        <li>
-          <a href="demo.mp4">
-            <div class="icon">🎬</div>
-            Demo Video (MP4)
-          </a>
-        </li>
-      </ul>
-    </div>
-      -->
-    <div class="card">
-      <h2>Abstract</h2>
-      <p>
-        Our project focuses on autonomous navigation using the Moorebot Scout robot. 
-        The robot is accessed through SSH, and Python scripts are run within its ROS1 environment to test movement and navigation behavior. 
-        The goal is to better understand how software can be used to control a mobile robot. 
-        This project also helps demonstrate the connection between Python, ROS1, and real-world robotics applications.
-      </p>
-    </div>
+    <section class="project-hero card">
+      <div>
+        <h2>Mazebot Overview</h2>
+        <p>
+          Our project focuses on autonomous navigation using the Moorebot Scout robot. The robot is accessed through SSH, and Python scripts run within its ROS1 environment to test movement, obstacle response, and navigation behavior.
+        </p>
+        <a class="repo-link" href="https://github.com/apham00/Mazebot" target="_blank">
+          <span class="icon">💾</span>
+          GitHub Repository
+        </a>
+      </div>
 
-    <div class="card">
-      <h2>Methodology</h2>
-      <p>
-        This project was carried out by remotely accessing the Moorebot Scout through SSH and working inside its ROS1 environment. Python scripts were developed and executed on the robot to send movement commands and test basic navigation behaviors. During each test, the robot’s responses were observed to evaluate how software instructions translated into physical motion. The results were then used to understand the interaction between Python, ROS1, and the robot’s hardware, highlighting how software controls real‑world robotic systems.
+      <div class="project-facts">
+        <div class="fact-card">
+          <span class="fact-value">ROS1</span>
+          <span class="fact-label">Robot Middleware</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-value">Python</span>
+          <span class="fact-label">Control Scripts</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-value">Scout</span>
+          <span class="fact-label">Hardware Platform</span>
+        </div>
+      </div>
+    </section>
 
-      </p>
-    </div>
+    <div class="project-grid">
+      <section class="card">
+        <h2>Methodology</h2>
+        <p>
+          This project was carried out by remotely accessing the Moorebot Scout through SSH and working inside its ROS1 environment. Python scripts were developed and executed on the robot to send movement commands and test basic navigation behaviors. During each test, the robot's responses were observed to evaluate how software instructions translated into physical motion. The results were then used to understand the interaction between Python, ROS1, and the robot's hardware, highlighting how software controls real-world robotic systems.
+        </p>
+      </section>
 
-    <div class="card">
-      <h2>Results </h2>
-      <p>
-        After running the initial movement scripts, additional ROS1 code was implemented to enable basic obstacle‑avoidance behavior. Using sensor data published by the robot, the Python script monitored distance readings and triggered avoidance maneuvers when an obstacle was detected. The Moorebot Scout successfully stopped, turned, or adjusted its path based on these sensor inputs. Testing showed that the robot could react in real time to nearby objects, demonstrating that ROS1 topics and Python callbacks were functioning correctly. Overall, the robot consistently executed both direct movement commands and automated avoidance behaviors without communication issues.
-    
-      </p>
-    </div>
+      <section class="card">
+        <h2>Results</h2>
+        <p>
+          After running the initial movement scripts, additional ROS1 code was implemented to enable basic obstacle-avoidance behavior. Using sensor data published by the robot, the Python script monitored distance readings and triggered avoidance maneuvers when an obstacle was detected. The Moorebot Scout successfully stopped, turned, or adjusted its path based on these sensor inputs. Testing showed that the robot could react in real time to nearby objects, demonstrating that ROS1 topics and Python callbacks were functioning correctly. Overall, the robot consistently executed both direct movement commands and automated avoidance behaviors without communication issues.
+        </p>
+      </section>
 
-    <div class="card">
-      <h2>Conclusions</h2>
-      <p>
-        By extending the Python scripts to include obstacle‑avoidance logic, the project further demonstrated how ROS1 enables software‑driven control of a mobile robot. The results showed that Python code can not only command movement but also interpret sensor data and make autonomous decisions. This work highlights the practical connection between programming, middleware, and real‑world robotics, illustrating how software can be used to build more intelligent and responsive navigation behaviors on the Moorebot Scout.
-      </p>
+      <section class="card">
+        <h2>Conclusions</h2>
+        <p>
+          By extending the Python scripts to include obstacle-avoidance logic, the project further demonstrated how ROS1 enables software-driven control of a mobile robot. The results showed that Python code can not only command movement but also interpret sensor data and make autonomous decisions. This work highlights the practical connection between programming, middleware, and real-world robotics, illustrating how software can be used to build more intelligent and responsive navigation behaviors on the Moorebot Scout.
+        </p>
+      </section>
     </div>
   </main>
 
@@ -113,24 +100,24 @@
     <div class="sidebar-card sidebar-card-project">
       <div class="sidebar-card-body-project">
         <h3>Project Timeline</h3>
-        <p style="margin-top:0.5rem; font-family:'Share Tech Mono',monospace; font-size:0.75rem; line-height:2; color:var(--text-muted);">
-          <span style="color:var(--accent);">Week 1</span> · Research &amp; Hardware Setup<br>
-          <span style="color:var(--accent);">Week 2</span> · Software Development<br>
-          <span style="color:var(--accent);">Week 3</span> · Web Development, Demo &amp; Presentation
-        </p>
+        <ol class="timeline-list">
+          <li><span>Week 1</span> Research &amp; Hardware Setup</li>
+          <li><span>Week 2</span> Software Development</li>
+          <li><span>Week 3</span> Web development, Demo &amp; Presentation</li>
+        </ol>
       </div>
     </div>
 
     <div class="sidebar-card sidebar-card-project">
       <div class="sidebar-card-body-project">
         <h3>Hardware Specs</h3>
-        <p style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-muted); line-height:1.8;">
-          Platform: Moorebot Scout<br>
-          Controller: Quad-Core ARM A7 @ 1.2 GHz<br>
-          Sensors: 6DoF IMU, light sensor, ToF sensor<br>
-          Camera: 2MP CMOS, 1080P, 120° wide-angle, IR night vision<br>
-          Battery: 18650 Li-ion battery
-        </p>
+        <dl class="spec-list">
+          <div><dt>Platform</dt><dd>Moorebot Scout</dd></div>
+          <div><dt>Controller</dt><dd>Quad-Core ARM A7 @ 1.2 GHz</dd></div>
+          <div><dt>Sensors</dt><dd>6DoF IMU, light sensor, ToF sensor</dd></div>
+          <div><dt>Camera</dt><dd>2MP CMOS, 1080P, 120° wide angle, IR night vision</dd></div>
+          <div><dt>Battery</dt><dd>18650 Lithium-ion battery</dd></div>
+        </dl>
       </div>
     </div>
   </aside>
