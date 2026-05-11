@@ -1,2 +1,2 @@
 # Mazebot
-WEBSITE LIVE @ https://eecs.csuohio.edu/~anpham/
+Website @ https://eecs.csuohio.edu/~anpham/
